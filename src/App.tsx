@@ -1,13 +1,10 @@
 /* eslint-disable max-len */
-/* eslint-disable jsx-a11y/control-has-associated-label */
-/* eslint-disable jsx-a11y/label-has-associated-control */
-/* eslint-disable jsx-a11y/control-has-associated-label */
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { UserWarning } from './UserWarning';
 import { addTodo, deleteTodo, getTodos, updateTodo } from './api/todos';
 import { Todo } from './types/Todo';
 import { Header } from './components/Header/Header';
-import { TodoList } from './components/Todo/TodoIList';
+import { TodoList } from './components/TodoList/TodoList';
 import { Errors, Filters } from './types/enums';
 import { USER_ID } from './consts/consts';
 import { Footer } from './components/Footer/Footer';
@@ -310,6 +307,15 @@ export const App: React.FC = () => {
     }
   };
 
+  const todoActions = {
+    onToggle: handleChangeCompletedStatus,
+    onSave: handleEditSave,
+    onChange: handleEditingChange,
+    onCancel: handleEditCancel,
+    onEdit: handleEditing,
+    onDelete: handleDeletingTodo,
+  };
+
   if (!USER_ID) {
     return <UserWarning />;
   }
@@ -330,19 +336,14 @@ export const App: React.FC = () => {
         />
 
         <TodoList
-          filteredTodos={filteredTodos}
+          todos={filteredTodos}
           editingTodoId={editingTodoId}
           editingTodoTitle={editingTodoTitle}
           todoOnDeleting={todoOnDeleting}
           todoOnUpdating={todoOnUpdating}
           todosOnDeleting={todosOnDeleting}
           todosOnUpdating={todosOnUpdating}
-          handleChangeCompletedStatus={handleChangeCompletedStatus}
-          handleEditSave={handleEditSave}
-          handleEditingChange={handleEditingChange}
-          handleEditCancel={handleEditCancel}
-          handleEditing={handleEditing}
-          handleDeletingTodo={handleDeletingTodo}
+          actions={todoActions}
           ref={editTitleRef}
         />
 
